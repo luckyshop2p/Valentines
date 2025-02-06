@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Will You Be My Valentine?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Dancing Script', cursive;
+      background-color: #ffebee;
+      text-align: center;
+      padding: 50px;
+      position: relative;
+      overflow: hidden;
+      transition: background 1s ease-in-out;
+    }
+    h1 {
+      color: #d32f2f;
+      font-size: 42px;
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 20px;
+      margin: 10px;
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      background-color: #d32f2f;
+      color: white;
+      transition: 0.3s;
+      font-weight: bold;
+    }
+    button:hover {
+      background-color: #b71c1c;
+      transform: scale(1.1);
+    }
+    #response {
+      margin-top: 20px;
+      font-size: 24px;
+      color: #d32f2f;
+      font-weight: bold;
+    }
+    .popup {
+      position: absolute;
+      background-color: #fff;
+      padding: 15px 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      font-size: 22px;
+      color: #d32f2f;
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      font-weight: bold;
+    }
+    .love-meter {
+      width: 80%;
+      height: 20px;
+      background-color: #ddd;
+      border-radius: 10px;
+      margin: 20px auto;
+      overflow: hidden;
+      position: relative;
+    }
+    .love-meter-fill {
+      width: 0%;
+      height: 100%;
+      background-color: #ff4081;
+      transition: width 0.5s ease-in-out;
+    }
+    @keyframes floatHearts {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+    }
+    .heart {
+      position: absolute;
+      color: #ff4081;
+      font-size: 24px;
+      animation: floatHearts 4s linear infinite;
+    }
+    .final-message {
+      font-size: 50px;
+      color: white;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-shadow: 0 0 20px red;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Will You Be My Valentine? 💕</h1>
+  <button onclick="showResponse('yes')">Yes</button>
+  <button onclick="showResponse('no')">No</button>
+  <div id="response"></div>
+  <div class="love-meter">
+    <div class="love-meter-fill"></div>
+  </div>
+
+  <audio id="bg-music" loop>
+    <source src="https://www.fesliyanstudios.com/play-mp3/5687" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const reasons = [
+      "The way you smile when you're excited", "Your laugh—especially when it's uncontrollable",
+      "How safe I feel with you", "Your hugs (seriously, the best)", "How you hold my hand so naturally",
+      "Your sleepy voice in the morning", "The way you get excited over small things", 
+      "The way you scrunch your nose when you're thinking", "How you support my dreams", 
+      "Your kindness, not just to me but to everyone", "The way you fit perfectly in my arms", 
+      "How you make everything more fun", "Your love for random adventures", "Your honesty—you always keep it real",
+      "Your weird but cute dance moves", "How you make me smile even when I'm sad", "The way you play with my hair",
+      "How good you smell (always)", "The way you get shy when I compliment you", 
+      "The fact that you actually put up with me", "How you always make me feel loved, even without words",
+      "Your little quirks that make you, *you*", "The way you look at me like I’m the only one in the world",
+      "The fact that you picked me", "The way you say 'I love you' like you really mean it",
+      "Simply put… *you*"
+    ];
+
+    function showResponse(answer) {
+      const responseDiv = document.getElementById('response');
+      const bgMusic = document.getElementById('bg-music');
+
+      if (answer === 'yes') {
+        responseDiv.innerHTML = "Yay! You've made me the happiest person alive! 💖";
+        showTitlePopup();
+        startHeartAnimation();
+        bgMusic.play();
+      } else {
+        responseDiv.innerHTML = "Aww, that's okay. I'll keep trying! 😊";
+      }
+    }
+
+    function showTitlePopup() {
+      createPopup("💖 100 Things I Love About You! 💖");
+      setTimeout(() => {
+        showReasons();
+      }, 2000);
+    }
+
+    function showReasons() {
+      let delay = 800;
+      let progress = 0;
+      reasons.forEach((reason, index) => {
+        setTimeout(() => {
+          createPopup(reason);
+        }, delay * (index + 1));
+      });
+
+      setTimeout(() => {
+        document.body.style.background = "#1a1a1a";
+        createPopup("You are my forever. ❤️");
+        setTimeout(() => {
+          document.querySelector('.final-message').style.display = "block";
+        }, 2000);
+      }, delay * (reasons.length + 2));
+    }
+
+    function createPopup(text) {
+      const popup = document.createElement('div');
+      popup.className = 'popup';
+      popup.innerHTML = text;
+      document.body.appendChild(popup);
+
+      let x = Math.random() * (window.innerWidth - 200);
+      let y = Math.random() * (window.innerHeight - 200);
+      popup.style.left = `${x}px`;
+      popup.style.top = `${y}px`;
+
+      setTimeout(() => {
+        popup.style.opacity = '1';
+      }, 100);
+
+      setTimeout(() => {
+        popup.style.opacity = '0';
+        setTimeout(() => popup.remove(), 500);
+      }, 4000);
+    }
+
+  </script>
+
+  <div class="final-message">You are my forever. ❤️</div>
+
+</body>
+</html>
